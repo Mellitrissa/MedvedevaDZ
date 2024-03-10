@@ -1,3 +1,4 @@
+package org.example;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,12 +12,11 @@ import java.util.List;
 public class HomePage {
     WebDriver driver;
 
-
     @FindBy(xpath = "//*[@id='app']/div[2]/div/div[2]/div/article[1]/div/div[2]/h2/span[2]")
     WebElement itemName;
     @FindBy(xpath = "//*[@id='app']/div[2]/div/div[2]/div/article[2]/div/div[2]/h2/span[2]")
     WebElement itemName1;
-    @FindBy(xpath = "//ins[contains(@class, 'price__lower-price wallet-price') and contains(text(), '₽')]")
+    @FindBy(xpath = "//*[@id='app']/div[2]/div/div[2]/div/article[1]/div/div[2]/p/span/ins")
     WebElement itemPrice;
     @FindBy(xpath = "//*[@id='app']/div[2]/div/div[2]/div/article[2]/div/div[2]/p/span/ins")
     WebElement itemPrice1;
@@ -29,7 +29,7 @@ public class HomePage {
     private final List<String> ItemsNames;
     private final List<String> Price;
 
-    public HomePage(WebDriver driver){
+    public HomePage(WebDriver driver) {
         this.driver = driver;
         ItemsNames = new ArrayList<>();
         Price = new ArrayList<>();
@@ -39,23 +39,27 @@ public class HomePage {
     public List<String> getItemsNames() {
         return ItemsNames;
     }
+
     public List<String> getPrice() {
         return Price;
     }
+
     public void addListItem() {
         ItemsNames.add(itemName.getText());
         ItemsNames.add(itemName1.getText());
     }
 
-    public void addItemsOnBasket(){
+    public void addItemsOnBasket() {
         BasketButton1.click();
         BasketButton2.click();
     }
-    public void addListPrice(){
+
+    public void addListPrice() {
         Price.add(itemPrice.getText());
         Price.add(itemPrice1.getText());
     }
-    public void clickOnGetBasket(){
+
+    public void clickOnGetBasket() {
         getBasket.click();
 
     }
