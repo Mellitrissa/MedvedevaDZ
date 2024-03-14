@@ -1,8 +1,8 @@
-package org.example;
-
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
@@ -33,6 +33,8 @@ public class TestCalculator {
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
     @Test
+    @Step("Сложение")
+    @Description("Тест проверяет результат сложения чисел на калькуляторе")
     public void plusTest() {
         driver.findElementById("com.google.android.calculator:id/arrow").click();
         driver.findElementById("com.google.android.calculator:id/digit_2").click();
@@ -44,6 +46,8 @@ public class TestCalculator {
 
     }
     @Test(dependsOnMethods = {"plusTest"})
+    @Step("Вычетание")
+    @Description("Тест проверяет результат вычетания чисел на калькуляторе")
     public void minusTest(){
         driver.findElementById("com.google.android.calculator:id/clr").click();
         driver.findElementById("com.google.android.calculator:id/digit_5").click();
@@ -54,6 +58,8 @@ public class TestCalculator {
         Assert.assertEquals("3",result.getText());
     }
     @Test (dependsOnMethods = {"plusTest","minusTest"})
+    @Step("Умножение")
+    @Description("Тест проверяет результат умножения чисел на калькуляторе")
     public void multiplicationTest(){
         driver.findElementById("com.google.android.calculator:id/clr").click();
         driver.findElementById("com.google.android.calculator:id/digit_5").click();
@@ -64,6 +70,8 @@ public class TestCalculator {
         Assert.assertEquals("10",result.getText());
     }
     @Test(dependsOnMethods = {"plusTest","minusTest","multiplicationTest"})
+    @Step("Деление")
+    @Description("Тест проверяет результат деления чисел на калькуляторе")
     public void divisionTest(){
         driver.findElementById("com.google.android.calculator:id/clr").click();
         driver.findElementById("com.google.android.calculator:id/digit_6").click();
@@ -73,7 +81,6 @@ public class TestCalculator {
         AndroidElement result = driver.findElement(By.xpath("//android.widget.TextView[@resource-id='com.google.android.calculator:id/result_final']"));
         Assert.assertEquals("3",result.getText());
     }
-
     @AfterTest
     public void tearDown() {
         driver.quit();
