@@ -8,7 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +26,7 @@ public class TestWB {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.get("https://www.wildberries.ru");
     }
 
@@ -49,6 +49,7 @@ public class TestWB {
     public void goToBasket() {
         homePage = new HomePage(driver);
         homePage.clickOnGetBasket();
+
     }
 
     @Test(dependsOnMethods = {"addProduct", "goToBasket"})
@@ -73,27 +74,27 @@ public class TestWB {
 
     }
 
-    @Test(dependsOnMethods = {"addProduct", "goToBasket"})
-    public void cheakPrice() {
+   @Test(dependsOnMethods = {"addProduct", "goToBasket","rememberInfo"})
+    public void cheakPrice() throws InterruptedException {
         basketPage = new BasketPage(driver);
         basketPage.addListProductPrice();
         priceBasket = basketPage.getBasketProductPrice();
         for (int i = 0; i < priceHome.size(); i++) {
             Assert.assertTrue(priceHome.get(i).contains(priceBasket.get(i)));
         }
-        //Цена товара в корзине почему то находиться не коректно, пробовала по разному искать каждый раз выдает цену совершенно других товаров(не тех что в корзине )
     }
 
     @Test(dependsOnMethods = {"addProduct", "goToBasket"})
-    public void cheakSum() {
+    public void cheakSum() throws InterruptedException {
         basketPage = new BasketPage(driver);
-        String sum = basketPage.getSum();
-        System.out.println(sum);
+        int sum = basketPage.getSum();
+        int actualSum = basketPage.getActualSum();
+        Assert.assertEquals(sum,actualSum);
     }
 
     @AfterClass
     public void quitDriver() {
         driver.quit();
-    }
+   }
 }
 
